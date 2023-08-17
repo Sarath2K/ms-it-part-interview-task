@@ -1,0 +1,139 @@
+.offer-tab {
+    background-color: #F8EB27;
+}
+
+.offer-highlight-text {
+    font-weight: bold;
+}
+
+.authenticate-bar {
+    padding: 1px 0;
+    font-size: 14px;
+}
+
+@media (max-width: 768px) {
+    .authenticate-bar {
+        padding: 1px 0;
+        font-size: 12px;
+    }
+
+    .copy-right-text {
+        font-size: 12px;
+        padding-bottom: 0px;
+    }
+}
+
+.authenticate-bar, #carouselBanners {
+    margin: 0;
+    padding: 0;
+}
+
+.big-saving-zone {
+    margin: 0;
+    padding: 0;
+}
+
+.sub-heading {
+    text-decoration: underline #F8EB27;
+    text-decoration-thickness: 1.5px;
+    margin-bottom: 10px;
+}
+
+.footer_heading {
+    font-size: 20px;
+    color: #F8EB27;
+}
+
+.footer-text {
+    text-decoration: none;
+}
+
+.footer_heading_quick {
+    font-size: 20px;
+}
+
+.footer {
+    background-color: black;
+}
+
+.social-icon {
+    padding: 10px;
+}
+
+.custom-hr {
+    height: 10px;
+    background-color: white;
+    border: none;
+    font-weight: bold;
+}
+
+.vertical-line {
+    border-left: 2px solid #F8EB27;
+    height: 100%;
+    margin: 0 15px;
+    padding-left: 50px;
+}
+
+@media (max-width: 768px) {
+    #carouselBanners .carousel-inner .carousel-item:first-child img {
+        content: url('https://www.beyoung.in/api/catalog/home-19-7-23/Combo-home-page-banner-mobile-banner1009.jpg');
+    }
+
+    #carouselBanners .carousel-inner .carousel-item:nth-child(2) img {
+        content: url('https://www.beyoung.in/api/catalog/home-19-7-23/Pyjama-pants-home-page-banner-mobile-view.jpg-1208.jpg');
+    }
+
+    .footer_heading_quick {
+        display: none;
+    }
+
+    .vertical-line {
+        border-left: 0px;
+        padding: 0px;
+    }
+
+    .vertical-line img{
+        width: 30px;
+    }
+}
+
+.image-container-carousel {
+    position: relative;
+    display: inline-block;
+}
+
+.image-container {
+    position: relative;
+}
+
+.image-text {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+    color: white;
+    padding: 10px;
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.size span {
+    padding: 6px 6px;
+    margin: 0px 5px;
+    border: 1px solid #c9c9c9;
+    font-size: 13px;
+    color: #000000d9;
+}
+
+.truncate {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+}
+
+.custom-hr {
+    border-top: 2.5px solid #F8EB27;
+}
