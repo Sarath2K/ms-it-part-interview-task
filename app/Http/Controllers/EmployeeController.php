@@ -131,7 +131,7 @@ class EmployeeController extends Controller
             ]);
 
             DB::commit();
-            return redirect(route('employees.index'))->with('success', 'User Updated Successfully!');
+            return redirect(route('employees.index'))->with('success', 'Employee Updated Successfully!');
         } catch (\Exception $e) {
             DB::rollBack();
             logError($e, 'Error While Updating Employee Details', 'app/Http/Controllers/EmployeeController.php');
@@ -155,7 +155,7 @@ class EmployeeController extends Controller
             ]);
             $user->delete();
             DB::commit();
-            return redirect()->with('success', 'Deactivated the user successfully!');;
+            return redirect()->with('success', 'Deactivated the employee successfully!');;
         } catch (Exception $exception) {
             DB::rollBack();
             logError($exception, 'Error While Deleting User', 'app/Http/Controllers/EmployeeController.php');

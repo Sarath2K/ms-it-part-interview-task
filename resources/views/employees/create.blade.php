@@ -4,7 +4,9 @@
             {{ __('Employees / Create') }}
         </h2>
     </x-slot>
-
+    <div class="container pt-2">
+        @include('layouts.alert')
+    </div>
     <section class="section">
         <div class="card">
             <div class="card-body p-2">

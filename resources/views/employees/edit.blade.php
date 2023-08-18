@@ -4,7 +4,9 @@
             {{ __('Employees / Edit') }}
         </h2>
     </x-slot>
-
+    <div class="container pt-2">
+        @include('layouts.alert')
+    </div>
     <section class="section">
         <div class="card">
             <div class="card-body p-2">
@@ -103,7 +105,7 @@
                         <hr>
 
                         <div class="d-flex justify-content-end">
-                            <button type="submit" class="btn btn-sm btn-primary m-1">Create</button>
+                            <button type="submit" class="btn btn-sm btn-primary m-1">Update</button>
                             <a type="button" class="btn btn-secondary btn-sm m-1"
                                href="{{ url()->previous() }}">Back</a>
                         </div>
