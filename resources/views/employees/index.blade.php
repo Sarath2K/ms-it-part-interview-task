@@ -31,8 +31,8 @@
                                 <td>{{ $employee->unique_id }}</td>
                                 <td>{{ $employee->roles[0]['name'] }}</td>
                                 <td>{{ $employee->email }}</td>
-                                <td>{{ $employee->phone }}</td>
                                 <td>{{ $employee->gender }}</td>
+                                <td>{{ $employee->phone }}</td>
                                 <td>{{ $employee->status }}</td>
                                 <td class="d-flex justify-content-around">
                                     <div>
