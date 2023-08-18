@@ -22,7 +22,7 @@ class EmployeeController extends Controller
             ->whereHas('roles', function ($query) {
                 $query->where('name', ROLE_EMPLOYEE);
             })
-            ->get();
+            ->paginate(10);
         return view('employees.index', compact('employees'));
     }
 
