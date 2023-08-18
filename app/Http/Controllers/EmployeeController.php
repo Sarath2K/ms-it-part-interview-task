@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CreateEmployeeRequest;
+use App\Http\Requests\UpdateEmployeeRequest;
 use App\Models\User;
 use Exception;
 use Illuminate\Contracts\Foundation\Application;
@@ -46,10 +48,10 @@ class EmployeeController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param Request $request
+     * @param CreateEmployeeRequest $request
      * @return Application|\Illuminate\Foundation\Application|RedirectResponse|Redirector
      */
-    public function store(Request $request)
+    public function store(CreateEmployeeRequest $request)
     {
         DB::beginTransaction();
         try {
@@ -88,7 +90,7 @@ class EmployeeController extends Controller
      */
     public function show(string $id)
     {
-        $user = User::with('roles')->findOrFail($id);
+        $user = User::withTrashed()->with('roles')->findOrFail($id);
         return view('employees.show', compact('user'));
     }
 
@@ -100,25 +102,29 @@ class EmployeeController extends Controller
      */
     public function edit(string $id)
     {
-        $user = User::findOrFail($id);
+        $user = User::withTrashed()->findOrFail($id);
         return view('employees.edit', compact('user'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param Request $request
+     * @param UpdateEmployeeRequest $request
      * @param string $id
      * @return Application|\Illuminate\Foundation\Application|RedirectResponse|Redirector
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateEmployeeRequest $request, string $id)
     {
         DB::beginTransaction();
         try {
             $input = $request->only(['name', 'email', 'dob', 'phone', 'gender', 'address', 'status', 'role_id']);
             $input['name'] = ucwords($input['name']);
 
-            $user = User::findOrFail($id);
+            $user = User::withTrashed()->findOrFail($id);
+
+            if ($input['status'] == STATUS_ACTIVE) {
+                $user->restore();
+            }
 
             $user->update([
                 'name' => $input['name'],
@@ -149,13 +155,17 @@ class EmployeeController extends Controller
     {
         DB::beginTransaction();
         try {
-            $user = User::find($id);
-            $user->update([
-                'status' => STATUS_ACTIVE,
-            ]);
+            $user = User::findOrFail($id);
+
+            if ($user->status === STATUS_ACTIVE) {
+                $user->update([
+                    'status' => STATUS_INACTIVE,
+                ]);
+            }
+
             $user->delete();
             DB::commit();
-            return redirect()->with('success', 'Deactivated the employee successfully!');;
+            return redirect(route('employees.index'))->with('success', 'Deactivated the employee successfully!');;
         } catch (Exception $exception) {
             DB::rollBack();
             logError($exception, 'Error While Deleting User', 'app/Http/Controllers/EmployeeController.php');

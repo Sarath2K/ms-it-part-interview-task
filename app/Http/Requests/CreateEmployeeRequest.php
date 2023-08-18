@@ -29,7 +29,7 @@ class CreateEmployeeRequest extends FormRequest
             'phone' => ['required', 'numeric', 'min:10', 'unique:' . User::class],
             'password' => ['required'],
             'dob' => [
-                'nullable',
+                'required',
                 function ($attribute, $value, $fail) {
                     $dob = Carbon::parse($value);
 
