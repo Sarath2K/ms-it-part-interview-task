@@ -77,8 +77,6 @@
                     </table>
                     {{ $employees->links() }}
                 </div>
-                <div>
-                </div>
             </div>
         </div>
     </section>

@@ -4,10 +4,18 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Spatie\Permission\Models\Role;
 
 class DashboardController extends Controller
 {
+    /**
+     * Retrieve the required data to display in dashboard.
+     *
+     * @return Application|Factory|View|\Illuminate\Foundation\Application
+     */
     public function index()
     {
         $roles = Role::all();
