@@ -101,37 +101,13 @@
                             </div>
                         </div>
                         <hr>
-                        <h4 class="text-center p-4">Login Details</h4>
-                        <div class="row g-3">
-                            <div class="col-md-6 row">
-                                <label for="phone_login" class="col-sm-2 form-label">Phone</label>
-                                <div class="col-sm-10">
-                                    <input type="email" class="form-control" id="phone_login" name="phone_login"
-                                           disabled value="{{ old('phone', $user->phone) }}"/>
-                                    @error('phone_login')
-                                    <div class="text-danger">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                            </div>
-                            <div class="col-md-6 row">
-                                <label for="password" class="col-sm-2 form-label">Pass Code</label>
-                                <div class="col-sm-10">
-                                    <input type="password" class="form-control" id="password" name="password"/>
-                                    @error('password')
-                                    <div class="text-danger">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                            </div>
-                        </div>
-                        <hr>
+
                         <div class="d-flex justify-content-end">
                             <button type="submit" class="btn btn-sm btn-primary m-1">Create</button>
                             <a type="button" class="btn btn-secondary btn-sm m-1"
                                href="{{ url()->previous() }}">Back</a>
                         </div>
                     </form>
-                </div>
-                <div>
                 </div>
             </div>
         </div>
