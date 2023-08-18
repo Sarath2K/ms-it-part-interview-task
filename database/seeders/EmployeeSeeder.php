@@ -39,7 +39,8 @@ class EmployeeSeeder extends Seeder
                 'gender' => $faker->randomElement([GENDER_MALE, GENDER_FEMALE]),
                 'dob' => $dob,
                 'address' => $faker->address,
-                'password' => Hash::make('password')
+                'password' => Hash::make('password'),
+                'created_at' => now()->month($randomMonth)->day($randomDay),
             ]);
 
             $user->assignRole(ROLE_EMPLOYEE);
