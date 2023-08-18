@@ -15,12 +15,14 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
+                    @role('Admin')
                     <x-nav-link :href="route('employees.index')" :active="request()->routeIs('employees.index')">
                         {{ __('Employees') }}
                     </x-nav-link>
                     <x-nav-link :href="route('employees.create')" :active="request()->routeIs('employees.create')">
                         {{ __('Add Employees') }}
                     </x-nav-link>
+                    @endrole
                 </div>
             </div>
 
