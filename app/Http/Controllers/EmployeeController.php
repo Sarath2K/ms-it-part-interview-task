@@ -42,7 +42,6 @@ class EmployeeController extends Controller
         DB::beginTransaction();
         try {
             $input = $request->only(['name', 'email', 'password', 'dob', 'phone', 'gender', 'address', 'status']);
-            $input['password'] = Hash::make($input['password']);
             $input['name'] = ucwords($input['name']);
 
             $uniqueId = User::getUserUniqueId();
@@ -52,7 +51,7 @@ class EmployeeController extends Controller
                 'name' => $input['name'],
                 'phone' => $input['phone'],
                 'email' => $input['email'],
-                'password' => $input['password'],
+                'password' => Hash::make($input['password']),
                 'dob' => $input['dob'],
                 'gender' => $input['gender'],
                 'address' => $input['address'],
