@@ -20,15 +20,16 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'unique_id',
-        'name',
-        'email',
-        'password',
-        'phone',
-        'gender',
+        'employee_id',
+        'f_name',
+        'l_name',
         'dob',
-        'status',
-        'address'
+        'edu_qualification',
+        'gender',
+        'address',
+        'email',
+        'phone',
+        'password',
     ];
 
     /**
@@ -70,14 +71,16 @@ class User extends Authenticatable
      */
     public static function getUniqueId($uniqueIdPattern, $uniqueIdLength)
     {
-        $previousIdObject = self::where('unique_id', 'LIKE', $uniqueIdPattern . '%')->orderBy('unique_id', 'desc')->first();
-        $previousId = $previousIdObject ? $previousIdObject->unique_id : ($uniqueIdPattern . str_pad(0, $uniqueIdLength, '0', STR_PAD_LEFT));
+        $previousIdObject = self::where('employee_id', 'LIKE', $uniqueIdPattern . '%')->orderBy('employee_id', 'desc')->first();
 
-        if (!$previousIdObject) {
-            return $uniqueIdPattern . str_pad(1, $uniqueIdLength, '0', STR_PAD_LEFT);
+        if ($previousIdObject) {
+            $previousId = $previousIdObject->employee_id;
+            $previousIdNumber = (int)substr($previousId, strlen($uniqueIdPattern));
+            $newIdNumber = $previousIdNumber + 1;
+            $newId = $uniqueIdPattern . str_pad($newIdNumber, $uniqueIdLength, '0', STR_PAD_LEFT);
+            return $newId;
+        } else {
+            return $uniqueIdPattern . '0001';
         }
-
-        $previousIdNumber = (int)str_replace($uniqueIdPattern, '', $previousId);
-        return $uniqueIdPattern . str_pad($previousIdNumber + 1, $uniqueIdLength, '0', STR_PAD_LEFT);
     }
 }

@@ -32,6 +32,8 @@ Route::middleware('auth')->group(function () {
     Route::group(['middleware' => ['role:Admin']], function () {
         Route::resource('/employees', EmployeeController::class);
     });
+
+    Route::get('export-users', [EmployeeController::class, 'exportUsers'])->name('export-employees');
 });
 
 require __DIR__ . '/auth.php';

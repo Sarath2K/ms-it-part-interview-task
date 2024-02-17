@@ -2,8 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CreateEmployeeRequest;
-use App\Http\Requests\UpdateEmployeeRequest;
+use App\Exports\UsersExport;
 use App\Models\User;
 use Exception;
 use Illuminate\Contracts\Foundation\Application;
@@ -14,6 +13,8 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Maatwebsite\Excel\Facades\Excel;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class EmployeeController extends Controller
 {
@@ -48,28 +49,30 @@ class EmployeeController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param CreateEmployeeRequest $request
+     * @param Request $request
      * @return Application|\Illuminate\Foundation\Application|RedirectResponse|Redirector
      */
-    public function store(CreateEmployeeRequest $request)
+    public function store(Request $request)
     {
         DB::beginTransaction();
         try {
-            $input = $request->only(['name', 'email', 'password', 'dob', 'phone', 'gender', 'address', 'status']);
-            $input['name'] = ucwords($input['name']);
+            $input = $request->only(['f_name', 'l_name', 'dob', 'edu_qualification', 'gender', 'address', 'email', 'phone']);
+            $input['f_name'] = ucwords($input['f_name']);
+            $input['l_name'] = ucwords($input['l_name']);
 
-            $uniqueId = User::getUserUniqueId();
+            $employeeId = User::getUserUniqueId();
 
             $user = User::create([
-                'unique_id' => $uniqueId,
-                'name' => $input['name'],
-                'phone' => $input['phone'],
-                'email' => $input['email'],
-                'password' => Hash::make($input['password']),
+                'employee_id' => $employeeId,
+                'f_name' => $input['f_name'],
+                'l_name' => $input['l_name'],
                 'dob' => $input['dob'],
+                'edu_qualification' => $input['edu_qualification'],
                 'gender' => $input['gender'],
                 'address' => $input['address'],
-                'status' => $input['status'],
+                'email' => $input['email'],
+                'phone' => $input['phone'],
+                'password' => Hash::make('password'),
             ]);
 
             $user->assignRole(ROLE_EMPLOYEE);
@@ -109,31 +112,29 @@ class EmployeeController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param UpdateEmployeeRequest $request
+     * @param Request $request
      * @param string $id
      * @return Application|\Illuminate\Foundation\Application|RedirectResponse|Redirector
      */
-    public function update(UpdateEmployeeRequest $request, string $id)
+    public function update(Request $request, string $id)
     {
         DB::beginTransaction();
         try {
-            $input = $request->only(['name', 'email', 'dob', 'phone', 'gender', 'address', 'status', 'role_id']);
-            $input['name'] = ucwords($input['name']);
+            $input = $request->only(['f_name', 'l_name', 'dob', 'edu_qualification', 'gender', 'address', 'email', 'phone']);
+            $input['f_name'] = ucwords($input['f_name']);
+            $input['l_name'] = ucwords($input['l_name']);
 
             $user = User::withTrashed()->findOrFail($id);
 
-            if ($input['status'] == STATUS_ACTIVE) {
-                $user->restore();
-            }
-
             $user->update([
-                'name' => $input['name'],
-                'phone' => $input['phone'],
-                'email' => $input['email'],
+                'f_name' => $input['f_name'],
+                'l_name' => $input['l_name'],
                 'dob' => $input['dob'],
+                'edu_qualification' => $input['edu_qualification'],
                 'gender' => $input['gender'],
                 'address' => $input['address'],
-                'status' => $input['status'],
+                'email' => $input['email'],
+                'phone' => $input['phone'],
             ]);
 
             DB::commit();
@@ -156,14 +157,8 @@ class EmployeeController extends Controller
         DB::beginTransaction();
         try {
             $user = User::findOrFail($id);
-
-            if ($user->status === STATUS_ACTIVE) {
-                $user->update([
-                    'status' => STATUS_INACTIVE,
-                ]);
-            }
-
             $user->delete();
+
             DB::commit();
             return redirect(route('employees.index'))->with('success', 'Deactivated the employee successfully!');;
         } catch (Exception $exception) {
@@ -171,5 +166,14 @@ class EmployeeController extends Controller
             logError($exception, 'Error While Deleting User', 'app/Http/Controllers/EmployeeController.php');
             return redirect()->back()->with('error', 'Please Try Again Later!');
         }
+    }
+
+    /**
+     * @return BinaryFileResponse
+     */
+    public function exportUsers()
+    {
+        $fileName = now() . 'users';
+        return Excel::download(new UsersExport, $fileName . '.xlsx');
     }
 }

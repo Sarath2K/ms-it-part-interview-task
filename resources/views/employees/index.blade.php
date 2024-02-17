@@ -10,30 +10,39 @@
     <section class="section">
         <div class="card">
             <div class="card-body p-2">
+
+                <div class="d-flex flex-row justify-content-end p-2">
+                    <a class="btn btn-sm btn-primary" href="{{ route('export-employees') }}">Export In Excel</a>
+                </div>
+
                 <div class="p-2 table-responsive">
                     <table class="table table-bordered data-table w-100">
                         <thead>
                         <tr class="table-primary text-center">
-                            <th>Name</th>
-                            <th>Unique ID</th>
-                            <th>Designation</th>
-                            <th>Email</th>
+                            <th>Employee ID</th>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>D.O.B</th>
+                            <th>Education Qualification</th>
                             <th>Gender</th>
+                            <th>Address</th>
+                            <th>Email</th>
                             <th>Phone</th>
-                            <th>Status</th>
                             <th>Action</th>
                         </tr>
                         </thead>
                         <tbody>
                         @forelse($employees as $employee)
                             <tr>
-                                <td>{{ $employee->name }}</td>
-                                <td>{{ $employee->unique_id }}</td>
-                                <td>{{ $employee->roles[0]['name'] }}</td>
-                                <td>{{ $employee->email }}</td>
+                                <td>{{ $employee->employee_id }}</td>
+                                <td>{{ $employee->f_name }}</td>
+                                <td>{{ $employee->l_name }}</td>
+                                <td>{{ $employee->dob }}</td>
+                                <td>{{ $employee->edu_qualification }}</td>
                                 <td>{{ $employee->gender }}</td>
+                                <td>{{ $employee->address }}</td>
+                                <td>{{ $employee->email }}</td>
                                 <td>{{ $employee->phone }}</td>
-                                <td>{{ $employee->status }}</td>
                                 <td class="d-flex justify-content-around">
                                     <div>
                                         <a type="button" class="btn btn-sm btn-info"
@@ -86,7 +95,7 @@
                             </tr>
                         @empty
                             <tr class="text-center">
-                                <td colspan="8">No Data Found</td>
+                                <td colspan="10">No Data Found</td>
                             </tr>
                         @endforelse
                         </tbody>
